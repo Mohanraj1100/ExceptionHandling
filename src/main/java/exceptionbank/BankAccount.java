@@ -4,50 +4,46 @@ import java.util.Scanner;
 import java.util.logging.*;
 import java.util.InputMismatchException;
 
-public class BankAccount{
-    String holdername;
-    long accno;
-    double balance = 0;
-    boolean a = true;
-    int x;
-    Scanner sc = new Scanner(System.in);
-    Scanner si = new Scanner(System.in);
-    Logger log=Logger.getLogger("hi");
 
-    BankAccount() // constructor for creation
-    {
-        try{
-            log.info("Enter your Account Holder Name");
-            holdername = sc.nextLine();
-            log.info("Enter your Account Number ");
-            accno = sc.next();
+public class BankAccount{
+    public static void main(String[] args) {
+    	String holdername = null;
+        long accno = 0;
+        int choice;
+        Scanner inputobj = new Scanner(System.in);
+        Logger log=Logger.getLogger("hi");
+        try {
+        	log.info("Enter the Account Holder Name");
+        	holdername = inputobj.next();
+        	log.info("Enter the Account Number");
+        	accno = inputobj.nextLong();
         }
         catch(InputMismatchException e)
         {
-            log.info(String.valueOf(e));
-            System.exit(0);
+        	log.info(String.valueOf(e));
+        	System.exit(0);
         }
-    }
-
-    void operation() {
-        while (a) {
+        BankOperation bo = new BankOperation(holdername,accno);
+        boolean inp = true;
+        while (inp) {
             log.info("Enter your choice\n1.Deposit\n2.Withdraw\n3.balance\n4.Exit");
-            x = sc.nextInt();
-            switch (x) {
+            choice = inputobj.nextInt();
+            switch (choice) {
                 case 1:
-                    deposit();
+                    bo.deposit();
                     break;
 
                 case 2:
-                    withDraw();
+                    bo.withDraw();
                     break;
 
                 case 3:
-                    balanceAmt();
+                    bo.balanceAmt();
                     break;
 
                 case 4:
-                    a = false;
+                	log.info("Thank You");
+                    inp = false;
                     break;
 
                 default:
@@ -55,48 +51,51 @@ public class BankAccount{
 
             }
         }
-    }
-
-    public static void main(String[] args) {
-        BankAccount in = new BankAccount();
-
-        in.operation();
 
     }
+}
 
-    void deposit() {
-        try{       
+    
+class BankOperation{
+	String holdername;
+    long accno;
+    double balance = 0;
+    Scanner inputobj = new Scanner(System.in);
+    Logger log=Logger.getLogger("hi");
+	BankOperation(String holdername,long accno){
+		this.holdername =holdername;
+		this.accno = accno;
+		balance = 0;
+	}
+	void deposit() { 
+		try {
         log.info("Enter deposit Amount");
-        double amount = si.nextDouble();
+        double amount = inputobj.nextDouble();
         balance = balance + amount;
-        }
-        catch(InputMismatchException e)
-        {
-            log.info(String.valueOf(e));
-            System.exit(0);
-        }
-        
+		}
+		catch(InputMismatchException e) {
+    		log.info(String.valueOf(e));
+        	System.exit(0);
+    	}
     }
 
     void withDraw() {
-        try{
+    	try {
         log.info("Enter Withdraw Amount");
-        double withdrawamt = si.nextDouble();
+        double withdrawamt = inputobj.nextDouble();
         if (withdrawamt > balance) {
             log.info("Thers is no required amount");
         } else {
             balance = balance - withdrawamt;
         }
-        }
-        catch(InputMismatchException e)
-        {
-            log.info(String.valueOf(e));
-            System.exit(0);
-        }
-        
+    	}
+    	catch(InputMismatchException e) {
+    		log.info(String.valueOf(e));
+        	System.exit(0);
+    	}
     }
 
     void balanceAmt() {
-        log.info("Balance is" + Balance);
+        log.log(Level.INFO,()->"Balance is" + balance);
     }
 }
