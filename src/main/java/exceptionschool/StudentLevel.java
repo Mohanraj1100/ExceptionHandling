@@ -21,18 +21,12 @@ class StudentLevel{
     }
     
     void update() {
+	    try{
         log.info("Do you need to update your GPA\nFor update type 1");
         response = inputobj.nextInt();
-        if(response == 1) {
-        	try {
+        if(response == 1) 
             log.info("Enter updated GPA");
             updatedgpa = inputobj.nextFloat();
-        	}
-        	catch(InputMismatchException e)
-        	{
-        		String msg = "Exception"+e;
-        		log.info(msg);
-        	}
             if ((gradelevel == 'A') && (updatedgpa >= 9) && (updatedgpa <= 10)) {
                 gpa = updatedgpa;
             } else if ((gradelevel == 'B') && (updatedgpa >= 7) && (updatedgpa <= 8)) {
@@ -50,6 +44,12 @@ class StudentLevel{
     else{
         log.info("Invalid");
     }
+    }
+	catch(InputMismatchException e)
+        	{
+        		String msg = "Exception"+e;
+        		log.info(msg);
+        	}
 }
 
 void result() {
